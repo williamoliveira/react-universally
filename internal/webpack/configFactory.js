@@ -3,6 +3,7 @@ import AssetsPlugin from 'assets-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import nodeExternals from 'webpack-node-externals';
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 
@@ -318,6 +319,9 @@ export default function webpackConfigFactory(buildOptions) {
       // We don't want webpack errors to occur during development as it will
       // kill our dev servers.
       ifDev(() => new webpack.NoEmitOnErrorsPlugin()),
+
+      // Cache loaders output improving build times
+      ifDev(() => new HardSourceWebpackPlugin()),
 
       // We need this plugin to enable hot reloading of our client.
       ifDevClient(
